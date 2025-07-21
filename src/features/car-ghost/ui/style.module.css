@@ -1,0 +1,24 @@
+.container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: url('./../assets/car.avif') no-repeat 50% 50% / cover;
+}
+
+.car {
+    position: absolute;
+    top: -25px;
+    left: 0;
+    width: 100%;
+    height: calc(100% + 50px);
+}
+
+.carGhost {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('./../assets/car-ghost.avif') no-repeat 50% 50% / cover;
+}
