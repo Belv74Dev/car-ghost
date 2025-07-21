@@ -2,6 +2,7 @@
   "name": "skeleton",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://Belv74Dev.github.io/car-ghost",
   "type": "module",
   "scripts": {
     "dev": "vite",
