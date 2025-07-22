@@ -1,8 +1,9 @@
 import { useRef } from 'react';
 import { useSpring, animated } from '@react-spring/web';
 import style from './style.module.css';
+import { CarGhostMobile } from './car-ghost-mobile/ui/car-ghost-mobile';
 
-export const CarGhost = () => {
+export const CarGhost = ({ isMobile }) => {
     const containerRef = useRef(null);
 
     const [springs, api] = useSpring(() => ({
@@ -39,20 +40,22 @@ export const CarGhost = () => {
         )`;
     };
 
-    return (
-        <div
-            ref={containerRef}
-            onMouseMove={handleMousemove}
-            className={style.container}
-        >
-            <animated.div
-                className={style.car}
-                style={{
-                    clipPath: springs.position.to(p => getClipPath(p))
-                }}
+    return isMobile
+        ? <CarGhostMobile />
+        : (
+            <div
+                ref={containerRef}
+                onMouseMove={handleMousemove}
+                className={style.container}
             >
-                <div className={style.carGhost}></div>
-            </animated.div>
-        </div>
-    )
+                <animated.div
+                    className={style.car}
+                    style={{
+                        clipPath: springs.position.to(p => getClipPath(p))
+                    }}
+                >
+                    <div className={style.carGhost}></div>
+                </animated.div>
+            </div>
+        )
 }

@@ -1,0 +1,1 @@
+export { CarGhostPage } from './ui/car-ghost-page'

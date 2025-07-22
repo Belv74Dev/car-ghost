@@ -16,9 +16,9 @@
 
 .carGhost {
     position: absolute;
-    top: 0;
+    top: 25px;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 50px);
     background: url('./../assets/car-ghost.avif') no-repeat 50% 50% / cover;
 }

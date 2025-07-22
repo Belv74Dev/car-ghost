@@ -1,12 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { CarGhostPage } from './pages/car-ghost-page'
 import './style.css'
-import { CarGhost } from './features/car-ghost'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <div style={{ height: '100px' }} />
-    <CarGhost />
+    <CarGhostPage />
     <div style={{ height: '100px' }} />
   </React.StrictMode>,
 )
