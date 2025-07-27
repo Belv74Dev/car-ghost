@@ -244,11 +244,15 @@
     }
 }
 
-.menu__mobile {
+.menuMobile {
     display: none;
 }
 
 @media (max-width: 960px) {
+    .menuMobile {
+        display: block;
+    }
+
     .menu {
         display: none;
     }
