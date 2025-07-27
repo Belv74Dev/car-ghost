@@ -1,29 +1,29 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react'
 import style from './style.module.css'
 
 const smoothScroll = (targetId) => {
-  const target = document.getElementById(targetId);
-  if (!target) return;
+    const target = document.getElementById(targetId)
+    if (!target) return
 
-  const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
-  const startPosition = window.pageYOffset;
-  const distance = targetPosition - startPosition;
-  const duration = 800; // ms
-  let startTime = null;
+    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+    const startPosition = window.pageYOffset;
+    const distance = targetPosition - startPosition;
+    const duration = 800
+    let startTime = null
 
-  const animation = (currentTime) => {
-    if (!startTime) startTime = currentTime;
-    const timeElapsed = currentTime - startTime;
-    const ease = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-    
-    window.scrollTo(0, startPosition + distance * ease(Math.min(timeElapsed / duration, 1)));
-    
-    if (timeElapsed < duration) {
-      requestAnimationFrame(animation);
-    }
-  };
+    const animation = (currentTime) => {
+        if (!startTime) startTime = currentTime
+        const timeElapsed = currentTime - startTime
+        const ease = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 
-  requestAnimationFrame(animation);
+        window.scrollTo(0, startPosition + distance * ease(Math.min(timeElapsed / duration, 1)))
+
+        if (timeElapsed < duration) {
+            requestAnimationFrame(animation)
+        }
+    };
+
+    requestAnimationFrame(animation)
 };
 
 // eslint-disable-next-line react/prop-types
@@ -38,6 +38,7 @@ const Section = ({ id, refCallback, color }) => {
 }
 
 export const Menu = () => {
+    const [view, setView] = useState(false)
     const refs = useRef([])
 
     const [scrollTop, setScrollTop] = useState(null)
@@ -79,9 +80,21 @@ export const Menu = () => {
             setScrollTop({ key: elKey, height: globalPercentage })
         };
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
     }, [])
+
+    useEffect(() => {
+        if (view) {
+            document.body.classList.add('menuMobile__hidden')
+        } else {
+            document.body.classList.remove('menuMobile__hidden')
+        }
+
+        return () => {
+            document.body.classList.remove('menuMobile__hidden')
+        };
+    }, [view]);
 
     const sections = [
         {
@@ -116,15 +129,15 @@ export const Menu = () => {
 
     return (
         <>
-            <div className={`${style.menu} ${style.menu_hover}`} aria-hidden="true">
+            <div className={`${style.menu} ${view && style.menu_view}`} aria-hidden="true">
                 <ul className={style.menu__list}>
                     {sections.map((section, i) => {
                         const active = scrollTop?.key === i
                         return (
-                            <li 
-                                key={section.title} 
+                            <li
+                                key={section.title}
                                 className={`${style.menuItem} ${active && style.menuItem_active}`}
-                                onClick={() => smoothScroll(i)}
+                                onClick={active ? () => { } : () => smoothScroll(i)}
                             >
                                 <i className={style.menuItem__circle}>
                                     <svg height="18" width="18">
@@ -146,15 +159,61 @@ export const Menu = () => {
                         )
                     })}
                     <div className={style.menuItem__top} onClick={() => smoothScroll(0)}>
-                        <svg width="16" height="8" viewBox="0 0 16 8" xmlns="http://www.w3.org/2000/svg"><path d="M9.547.732L16 8 8 4 0 8 6.453.732A1.996 1.996 0 0 1 8 0c.623 0 1.18.285 1.547.732z"></path></svg>
+                        <svg width="16" height="8" viewBox="0 0 16 8" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.547.732L16 8 8 4 0 8 6.453.732A1.996 1.996 0 0 1 8 0c.623 0 1.18.285 1.547.732z"></path>
+                        </svg>
                     </div>
                 </ul>
+                <button className={`${style.menuNotebookButton} ${view && style.menuNotebookButton_view}`} onClick={() => setView(view => !view)}>
+                    <span className="" style={{ display: 'flex', width: '40px', height: '40px', border: '2px solid #969696', borderRadius: '50%', padding: '8px', flexDirection: 'center' }}>
+                        {view
+                            ? <svg viewBox="0 0 12 12" className={style.menuNotebookButton__iconClose} style={{ height: '12px', width: '12px', margin: '4px', fill: '#ffffff' }}>
+                                <path d="M4.674 6L.344 1.05A.5.5 0 0 1 1.05.343L6 4.674l4.95-4.33a.5.5 0 0 1 .707.706L7.326 6l4.33 4.95a.5.5 0 0 1-.706.707L6 7.326l-4.95 4.33a.5.5 0 0 1-.707-.706L4.674 6z"></path>
+                            </svg>
+                            : <svg viewBox="0 0 24 24" className={style.menuNotebookButton__iconOpen} width="24" height="24" style={{ height: '20px', width: '24px', fill: '#969696' }}>
+                                <circle cx="12" cy="4" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="12" cy="20" r="2"></circle>
+                            </svg>
+                        }
+                    </span>
+                    <span className={style.menuNotebookButton__text}>{(scrollTop?.key || 0) + 1} / {sections.length}</span>
+                </button>
+            </div>
+
+            <div className={`${style.menuMobile} ${view && style.menuMobile_view}`}>
+                <div className={style.menuMobile__content}>
+                    <ul className={style.menuMobile__list}>
+                        {sections.map((item, i) => {
+                            const active = scrollTop?.key === i
+                            return (
+                                <li
+                                    key={item.title}
+                                    className={style.menuMobile__listItem}
+                                    style={{ opacity: active ? '0.5' : '1' }}
+                                    onClick={active ? () => { } : () => {
+                                        smoothScroll(i)
+                                        setView(false)
+                                    }}
+                                >
+                                    {item.title}
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </div>
+                <div className={style.menuMobile__container}>
+                    <div className={style.menuMobile__current} onClick={() => setView(view => !view)}>
+                        <span className={style.menuMobile__currentTitle}>{sections[scrollTop?.key || 0].title}</span>
+                        <svg width="16" height="8" viewBox="0 0 16 8" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.547.732L16 8 8 4 0 8 6.453.732A1.996 1.996 0 0 1 8 0c.623 0 1.18.285 1.547.732z"></path>
+                        </svg>
+                    </div>
+                </div>
+
             </div>
 
             <div>
                 {sections.map((section, i) => <React.Fragment key={i}>{section.section}</React.Fragment>)}
             </div>
         </>
-
     )
 }
