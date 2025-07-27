@@ -1,0 +1,168 @@
+.menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    color: #fff;
+    padding: 17px 10px 17px 20px;
+    z-index: 10;
+}
+
+.menu * {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.menu::before {
+    content: "";
+    opacity: 0;
+    transform: scale(0.8);
+    transform-origin: 0% 100%;
+    transition: transform 300ms, opacity 300ms;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 180%;
+    padding-top: 180%;
+    pointer-events: none;
+    background-image: radial-gradient(circle at 0% 100%, #000000, rgba(0, 0, 0, 0.75) 33%, rgba(0, 0, 0, 0) 60%);
+    z-index: -1;
+}
+
+.menu:hover::before {
+    opacity: 1;
+    transform: scale(1);
+    transition: transform 200ms, opacity 200ms;
+    background-image: radial-gradient(circle at 0% 100%, #000000, rgba(0, 0, 0, 0.75) 33%, rgba(0, 0, 0, 0) 60%);
+}
+
+.menu__list {
+    margin: 0;
+    padding: 0;
+}
+
+.menuItem {
+    display: flex;
+    align-items: center;
+    padding: 6px 0;
+    cursor: pointer;
+}
+
+.menuItem_active {
+    cursor: default;
+}
+
+.menuItem__circle {
+    position: relative;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 8px;
+}
+
+.menuItem__circle::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 3px;
+    height: 3px;
+    transform: translate(-50%, -50%);
+    background: #969696;
+    overflow: hidden;
+    border-radius: 100%;
+}
+
+.menu:hover .menuItem__circle::before {
+    background: #ffffff;
+}
+
+.menuItem__circle svg {
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+    z-index: 2;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 18px;
+    height: 18px;
+    transform: translate(-50%, -50%);
+    border-radius: 100%;
+}
+
+.menuItem__circle svg circle {
+    stroke: #898989 !important;
+}
+
+.menu:hover .menuItem__circle svg circle {
+    stroke: #ffffff !important;
+}
+
+.menuItem_active .menuItem__circle::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    transform: translate(-50%, -50%);
+    border: 2px solid #969696;
+    opacity: .2;
+    border-radius: 100%;
+    transition: opacity .2s;
+}
+
+.menuItem__label {
+    padding: 0 0 0 5px;
+    color: rgb(150, 150, 150);
+    margin-top: -8px;
+
+    opacity: 0;
+    margin-left: -25px;
+}
+
+.menuItem_active .menuItem__label,
+.menu:hover .menuItem__label {
+    height: 10px;
+    margin-left: 0px;
+    opacity: 1;
+    transition: opacity 300ms, transform 300ms, margin-left;
+    transition: 400ms cubic-bezier(0.14, 0.69, 0.41, 1);
+}
+
+.menuItem__text {
+    font-size: 14px;
+    line-height: 0;
+}
+
+.menuItem:hover .menuItem__label {
+    transform: translateX(8px)
+}
+
+.menuItem_active .menuItem__label {
+    transform: translateX(0px) !important
+}
+
+.menu:hover .menuItem__label {
+    color: #ffffff;
+}
+
+.menuItem__top {
+    display: block;
+    width: 16px;
+    height: 18px;
+    margin: 10px 0 0 5px;
+    cursor: pointer;
+}
+
+.menuItem__top {}
+
+.menuItem__top svg {
+    fill: #969696;
+}
+
+.menu:hover .menuItem__top svg {
+    fill: #ffffff;
+}
