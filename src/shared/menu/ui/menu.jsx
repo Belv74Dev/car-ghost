@@ -137,7 +137,10 @@ export const Menu = () => {
                             <li
                                 key={section.title}
                                 className={`${style.menuItem} ${active && style.menuItem_active}`}
-                                onClick={active ? () => { } : () => smoothScroll(i)}
+                                onClick={active ? () => { } : () => {
+                                    smoothScroll(i)
+                                    setView(false)
+                                }}
                             >
                                 <i className={style.menuItem__circle}>
                                     <svg height="18" width="18">
@@ -158,7 +161,13 @@ export const Menu = () => {
                             </li>
                         )
                     })}
-                    <div className={style.menuItem__top} onClick={() => smoothScroll(0)}>
+                    <div
+                        className={style.menuItem__top}
+                        onClick={() => {
+                            smoothScroll(0)
+                                    setView(false)
+                        }}
+                    >
                         <svg width="16" height="8" viewBox="0 0 16 8" xmlns="http://www.w3.org/2000/svg">
                             <path d="M9.547.732L16 8 8 4 0 8 6.453.732A1.996 1.996 0 0 1 8 0c.623 0 1.18.285 1.547.732z"></path>
                         </svg>
